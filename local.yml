@@ -5,6 +5,7 @@
 
   tasks:
   - name: Updating Homebrew
+    become_user: nick
     homebrew:
       update_homebrew: yes
       upgrade_all: yes
