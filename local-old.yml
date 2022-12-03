@@ -116,6 +116,12 @@
       accept_external_apps: True
     when: ansible_machine == "x86_64"
 
+  - name: Installing Homebrew Packages
+    homebrew:
+      name: "{{ brew_packages }}"
+      state: present
+    when: ansible_machine == "x86_64"
+
   - name: Updating Homebrew M1 Pro
     homebrew:
       update_homebrew: yes
