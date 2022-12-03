@@ -93,6 +93,7 @@
       mode: '755'
 
   - name: Tapping homebrew/cask-fonts
+    become_user: nick
     homebrew_tap:
       name: homebrew/cask-fonts
       become_user: nick
