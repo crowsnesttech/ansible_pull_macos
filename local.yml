@@ -25,7 +25,7 @@
       # - xrg
       - geektool
       - docker
-      - visial-studio-code
+      - visual-studio-code
     brew_packages:
       - syncthing
       - nano
