@@ -95,6 +95,7 @@
   - name: Tapping homebrew/cask-fonts
     homebrew_tap:
       name: homebrew/cask-fonts
+      become_user: nick
 
   # - name: Change user Shell to ZSH 
   #   become: yes
