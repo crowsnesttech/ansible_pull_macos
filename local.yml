@@ -109,10 +109,6 @@
       url: https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh
       dest: /tmp/itermshellint.sh
 
-  - name: Run iTerm Shell Int
-    ansible.builtin.shell:
-      cmd: cat /tmp/itermshellint.sh | sh -s -- -y
-
   - name: Installing Homebrew Cask Packages
     community.general.homebrew_cask:
       name: "{{ brew_cask_packages }}"
