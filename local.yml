@@ -4,61 +4,45 @@
   become: false
   vars:
     brew_cask_packages:
-      - atom
-      - docker
-      - dropbox
-      - firefox
-      - google-chrome
-      - google-drive
-      - google-hangouts
-      - iterm2
-      - keepassx
-      - kodi
-      - lastpass
+      - syncthing
+      - google-chrome 
       - macvim
-      - royal-tsx
-      - skype
-      - slack
-      - sling
-      - spotify
-      - sublime-text
-      - vagrant
-      - vagrant-manager
-      - virtualbox
-      - virtualbox-extension-pack
+      - atom
       - visual-studio-code
-      - vmware-fusion
+      - textmate
+      - brave-browser
+      - bitwarden
+      - discord
+      - obs
+      - spotify
+      - superduper
+      - mos # Trackboll smooth scrolling
+      - vlc
+      - balenaetcher
+      - iterm2
+      - itsycal
+      - grandperspective
+      # - xrg
+      - geektool
     brew_packages:
-      - autoconf
-      - bash-completion
-      - boot2docker
-      - consul
-      - docker-compose
-      - docker-machine
-      - doxygen
-      - git
-      - git-lfs
-      - go
-      - jq
-      - nmap
+      - syncthing
+      - nano
       - nomad
-      - openssl
-      - packer
-      - pyenv
-      - python
-      - rancher-compose
-      - rbenv
-      - ruby-build
-      - ssh-copy-id
-      - terraform
-      - terraform-inventory
-      - terraform-provisioner-ansible
-      - tmux
-      - tree
-      - vault
-      - wget
+      - wakeonlan
+      - ipmitool
+      - iperf3
+      - nmap
+      - cowsay
+      - ffmpeg
+      - git
+      - handbrake
+      - speedtest-cli
+      - youtube-dl
       - zsh
+      - zsh-autosuggestions
       - zsh-syntax-highlighting
+      - neofetch
+      - htop
     install_homebrew_if_missing: false
     # python_modules:
     #   - configparser
@@ -118,3 +102,4 @@
     #     name: "{{ item }}"
     #     state: present
     #   with_items: '{{ python_modules }}'
+    
