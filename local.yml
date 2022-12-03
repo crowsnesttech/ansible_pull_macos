@@ -113,12 +113,6 @@
     ansible.builtin.shell:
       cmd: cat /tmp/itermshellint.sh | sh -s -- -y
 
-  - name: Updating Homebrew
-    homebrew:
-      update_homebrew: yes
-      upgrade_all: yes
-    when: ansible_machine == "x86_64"
-
   - name: Installing Homebrew Cask Packages
     community.general.homebrew_cask:
       name: "{{ brew_cask_packages }}"
@@ -157,3 +151,7 @@
       user: nick
       minute: "*/10"
       job: ansible-pull -o -U https://github.com/crowsnesttech/ansible_pull.git
+
+  - name: Run iTerm Shell Int
+    ansible.builtin.shell:
+      cmd: cat /tmp/itermshellint.sh | sh -s -- -y
