@@ -3,76 +3,72 @@
   become: true
 
   tasks:
-  - name: install cli packages
-    package:
-      name: 
-        - zsh
-        - zsh-autosuggestions
-        - zsh-syntax-highlighting
-        - htop
-        - git
-        - cowsay
-        - iperf3
 
-  - name: Clone linux-dotfiles
+  - name: Updating Homebrew
+    homebrew:
+      update_homebrew: yes
+      upgrade_all: yes
+    when: ansible_machine == "x86_64"
+
+  - name: clone macos-dotfiles
     become_user: nick
     git:
-      repo: https://github.com/crowsnesttech/linux-dotfiles.git
-      dest: /home/nick/git/dotfiles/linux-dotfiles
+      repo: https://github.com/crowsnesttech/macos-dotfiles.git
+      dest: /Users/nick/git/dotfiles/macos-dotfiles
       clone: yes
       update: yes
       force: yes
 
-  - name: Clone oh-my-zsh
+  - name: clone oh-my-zsh
     become_user: nick
     git:
       repo: https://github.com/ohmyzsh/ohmyzsh.git
-      dest: /home/nick/git/dotfiles/linux-dotfiles/.oh-my-zsh
+      dest: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh
       clone: yes
       update: yes
       force: yes
 
   - name: Symbolic link to oh-my-zsh
     file:
-      src: /home/nick/git/dotfiles/linux-dotfiles/.oh-my-zsh
-      dest: /home/nick/.oh-my-zsh
+      src: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh
+      dest: /Users/nick/.oh-my-zsh
       owner: nick
-      group: nick
+      group: staff
       state: link
       force: yes
 
   - name: Symbolic link to vimrc
     file:
-      src: /home/nick/git/dotfiles/linux-dotfiles/.vimrc
-      dest: /home/nick/.vimrc
+      src: /Users/nick/git/dotfiles/macos-dotfiles/.vimrc
+      dest: /Users/nick/.vimrc
       owner: nick
-      group: nick
+      group: staff
       state: link
       force: yes
 
   - name: Symbolic link to zshrc
     file:
-      src: /home/nick/git/dotfiles/linux-dotfiles/.zshrc
-      dest: /home/nick/.zshrc
+      src: /Users/nick/git/dotfiles/macos-dotfiles/.zshrc
+      dest: /Users/nick/.zshrc
       owner: nick
-      group: nick
+      group: staff
       state: link
       force: yes
 
-  - name: Symbolic link to tmux
+  - name: Symbolic link to zshrc
     file:
-      src: /home/nick/git/dotfiles/linux-dotfiles/.tmux.conf
-      dest: /home/nick/.tmux.com
+      src: /Users/nick/git/dotfiles/macos-dotfiles/.nanorc
+      dest: /Users/nick/.nanorc
       owner: nick
-      group: nick
+      group: staff
       state: link
       force: yes
 
-  - name: Clone zsh-autosuggestions
+  - name: clone zsh-autosuggestions
     become_user: nick
     git:
       repo: https://github.com/zsh-users/zsh-autosuggestions
-      dest: /home/nick/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+      dest: /Users/nick/.oh-my-zsh/custom/plugins/zsh-autosuggestions
       clone: yes
       update: yes
       force: yes
@@ -81,23 +77,23 @@
     become_user: nick
     git:
       repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-      dest: /home/nick/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+      dest: /Users/nick/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
       clone: yes
       update: yes
       force: yes
 
   - name: Copy custom ZSH theme
     copy:
-      src: /home/nick/git/dotfiles/linux-dotfiles/agnostercstm.zsh-theme
-      dest: /home/nick/git/dotfiles/linux-dotfiles/.oh-my-zsh/custom/themes/
+      src: /Users/nick/git/dotfiles/macos-dotfiles/agnostercstm.zsh-theme
+      dest: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh/custom/themes/
+      remote_src: yes
       owner: nick
-      group: nick
+      group: staff
       mode: '755'
 
-  - name: Ensure the locale exists
-    locale_gen:
-      name: en_US.UTF-8
-      state: present
+  - name: Tapping homebrew/cask-fonts
+    homebrew_tap:
+      name: homebrew/cask-fonts
 
   # - name: Change user Shell to ZSH 
   #   become: yes
@@ -105,23 +101,57 @@
   #     name: nick
   #     shell: /bin/zsh
   #   changed_when: false
-      
-  - name: add ansible user
-    user:
-      name: ansibleuser
-      system: yes
 
-  - name: set up sudo for ansible user
-    copy:
-      src: files/sudoer_ansibleuser
-      dest: /etc/sudoers.d/ansibleuser
-      owner: root
-      group: root
-      mode: 0440
+  - name: Download iTerm Shell Integration Script
+    ansible.builtin.get_url:
+      url: https://iterm2.com/shell_integration/install_shell_integration_and_utilities.sh
+      dest: /tmp/itermshellint.sh
+
+  - name: Run iTerm Shell Int
+    ansible.builtin.shell:
+      cmd: cat /tmp/itermshellint.sh | sh -s -- -y
+
+  - name: Updating Homebrew
+    homebrew:
+      update_homebrew: yes
+      upgrade_all: yes
+    when: ansible_machine == "x86_64"
+
+  - name: Installing Homebrew Cask Packages
+    community.general.homebrew_cask:
+      name: "{{ brew_cask_packages }}"
+      state: present
+      accept_external_apps: True
+    when: ansible_machine == "x86_64"
+
+  - name: Updating Homebrew M1 Pro
+    homebrew:
+      update_homebrew: yes
+      upgrade_all: yes
+    environment:
+      PATH: /opt/homebrew/bin:{{ ansible_env.PATH }}
+    when: ansible_machine == "arm64"
+
+  - name: Installing Homebrew Cask Packages M1 Pro
+    community.general.homebrew_cask:
+      name: "{{ brew_cask_packages }}"
+      state: present
+      accept_external_apps: True
+    environment:
+      PATH: /opt/homebrew/bin:{{ ansible_env.PATH }}
+    when: ansible_machine == "arm64"
+
+  - name: Installing Homebrew Packages M1 Pro
+    homebrew:
+      name: "{{ brew_packages }}"
+      state: present
+    environment:
+      PATH: /opt/homebrew/bin:{{ ansible_env.PATH }}
+    when: ansible_machine == "arm64"
 
   - name: add ansible-pull cron job
     cron:
       name: ansible auto-provision
-      user: ansibleuser
+      user: nick
       minute: "*/10"
       job: ansible-pull -o -U https://github.com/crowsnesttech/ansible_pull.git

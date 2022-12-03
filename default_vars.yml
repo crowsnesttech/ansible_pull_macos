@@ -1,0 +1,48 @@
+homebrew_cask_appdir: /Applications
+
+brew_cask_packages:
+  - syncthing
+  - google-chrome 
+  - macvim
+  - atom
+  - visual-studio-code
+  - textmate
+  - brave-browser
+  - bitwarden
+  - discord
+  - obs
+  - spotify
+  - superduper
+  - mos # Trackboll smooth scrolling
+  - vlc
+  - balenaetcher
+  - iterm2
+  - itsycal
+  - grandperspective
+  # - xrg
+  - geektool
+  # Don't seam to want to install
+  # - teamviewer
+  # - twitterrific
+  # - microsoft-teams
+  # - microsoft-remote-desktop    
+
+brew_packages:
+  - syncthing
+  - nano
+  - nomad
+  - wakeonlan
+  - ipmitool
+  - iperf3
+  - nmap
+  - cowsay
+  - ffmpeg
+  - git
+  - handbrake
+  - speedtest-cli
+  - youtube-dl
+  - zsh
+  - zsh-autosuggestions
+  - zsh-syntax-highlighting
+  - neofetch
+  - htop
