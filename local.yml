@@ -97,6 +97,88 @@
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
+
+    - name: clone macos-dotfiles
+      become_user: nick
+      git:
+        repo: https://github.com/crowsnesttech/macos-dotfiles.git
+        dest: /Users/nick/git/dotfiles/macos-dotfiles
+        clone: yes
+        update: yes
+        force: yes
+
+    - name: clone oh-my-zsh
+      become_user: nick
+      git:
+        repo: https://github.com/ohmyzsh/ohmyzsh.git
+        dest: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh
+        clone: yes
+        update: yes
+        force: yes
+
+    - name: Symbolic link to oh-my-zsh
+      file:
+        src: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh
+        dest: /Users/nick/.oh-my-zsh
+        owner: nick
+        group: staff
+        state: link
+        force: yes
+
+    - name: Symbolic link to vimrc
+      file:
+        src: /Users/nick/git/dotfiles/macos-dotfiles/.vimrc
+        dest: /Users/nick/.vimrc
+        owner: nick
+        group: staff
+        state: link
+        force: yes
+
+    - name: Symbolic link to zshrc
+      file:
+        src: /Users/nick/git/dotfiles/macos-dotfiles/.zshrc
+        dest: /Users/nick/.zshrc
+        owner: nick
+        group: staff
+        state: link
+        force: yes
+
+    - name: Symbolic link to zshrc
+      file:
+        src: /Users/nick/git/dotfiles/macos-dotfiles/.nanorc
+        dest: /Users/nick/.nanorc
+        owner: nick
+        group: staff
+        state: link
+        force: yes
+
+    - name: clone zsh-autosuggestions
+      become_user: nick
+      git:
+        repo: https://github.com/zsh-users/zsh-autosuggestions
+        dest: /Users/nick/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+        clone: yes
+        update: yes
+        force: yes
+
+    - name: Clone zsh-syntax-highlighting
+      become_user: nick
+      git:
+        repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+        dest: /Users/nick/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+        clone: yes
+        update: yes
+        force: yes
+
+    - name: Copy custom ZSH theme
+      copy:
+        src: /Users/nick/git/dotfiles/macos-dotfiles/agnostercstm.zsh-theme
+        dest: /Users/nick/git/dotfiles/macos-dotfiles/.oh-my-zsh/custom/themes/
+        remote_src: yes
+        owner: nick
+        group: staff
+        mode: '755'
+
     # - name: Installing Python Modules
     #   pip:
     #     name: "{{ item }}"
