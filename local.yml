@@ -183,6 +183,10 @@
         group: staff
         mode: '755'
 
+    - name: Run iTerm Shell Int
+      ansible.builtin.shell:
+        cmd: cat /tmp/itermshellint.sh | sh -s -- -y
+
     # - name: Installing Python Modules
     #   pip:
     #     name: "{{ item }}"
