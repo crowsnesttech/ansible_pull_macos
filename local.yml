@@ -24,6 +24,8 @@
       - grandperspective
       # - xrg
       - geektool
+      - docker
+      - visial-studio-code
     brew_packages:
       - syncthing
       - nano
@@ -43,6 +45,8 @@
       - zsh-syntax-highlighting
       - neofetch
       - htop
+      - docker-compose
+      - docker-machine
     install_homebrew_if_missing: false
     # python_modules:
     #   - configparser
