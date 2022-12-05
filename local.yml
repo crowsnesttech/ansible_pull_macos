@@ -169,10 +169,10 @@
     #   when: homebrew_check.stat.exists
 
     - name: Installing Homebrew Cask Packages
-      homebrew_cask:
+      community.general.homebrew_cask:
         name: "{{ brew_cask_packages }}"
         state: present
-        accept_external_apps: true
+        accept_external_apps: True
       register: result
       until: result is successful
       when: homebrew_check.stat.exists
