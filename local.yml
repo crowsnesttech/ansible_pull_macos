@@ -26,8 +26,8 @@
       - geektool
       - docker
       - visual-studio-code
-    brew_packages:
       - syncthing
+    brew_packages:
       - nano
       - nomad
       - wakeonlan
