@@ -52,7 +52,7 @@
     #   - configparser
     #   - pylint
     #   - virtualenv
-    upgrade_homebrew_packages: true
+    # upgrade_homebrew_packages: true
 
   pre_tasks:
     - name: Ensuring Homebrew Is Installed
@@ -158,14 +158,15 @@
     - name: Updating Homebrew
       homebrew:
         update_homebrew: true
+        upgrade_all: true
       when: homebrew_check.stat.exists
 
-    - name: Upgrading Homebrew Packages
-      homebrew:
-        upgrade_all: "{{ upgrade_homebrew_packages }}"
-      register: result
-      until: result is successful
-      when: homebrew_check.stat.exists
+    # - name: Upgrading Homebrew Packages
+    #   homebrew:
+    #     upgrade_all: "{{ upgrade_homebrew_packages }}"
+    #   register: result
+    #   until: result is successful
+    #   when: homebrew_check.stat.exists
 
     - name: Installing Homebrew Cask Packages
       homebrew_cask:
