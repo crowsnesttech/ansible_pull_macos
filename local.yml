@@ -47,12 +47,12 @@
       - htop
       - docker-compose
       - docker-machine
-    install_homebrew_if_missing: false
+    install_homebrew_if_missing: true
     # python_modules:
     #   - configparser
     #   - pylint
     #   - virtualenv
-    upgrade_homebrew_packages: false
+    upgrade_homebrew_packages: true
 
   pre_tasks:
     - name: Ensuring Homebrew Is Installed
